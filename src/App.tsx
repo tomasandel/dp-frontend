@@ -7,6 +7,9 @@ import { FiveMinChart } from "@/components/FiveMinChart";
 import { LogsTable } from "@/components/LogsTable";
 import { MonitorsTable } from "@/components/MonitorsTable";
 import { ConsistencyPanel } from "@/components/ConsistencyPanel";
+import { LargestLogs } from "@/components/LargestLogs";
+import { FastestGrowingLogs } from "@/components/FastestGrowingLogs";
+import { SystemPanel } from "@/components/SystemPanel";
 import { Separator } from "@/components/ui/separator";
 
 export default function App() {
@@ -54,21 +57,20 @@ export default function App() {
               <FiveMinChart data={data} />
             </div>
             <Separator />
+            <div className="grid gap-4 md:grid-cols-2">
+              <LargestLogs data={data} />
+              <FastestGrowingLogs data={data} />
+            </div>
+            <Separator />
             <ConsistencyPanel data={data} />
             <LogsTable data={data} />
             <MonitorsTable data={data} />
+            <Separator />
+            <SystemPanel data={data} />
           </>
         )}
       </main>
 
-      {data && (
-        <footer className="border-t px-6 py-3">
-          <div className="mx-auto flex max-w-7xl justify-end gap-4 text-xs text-muted-foreground">
-            <span>DB table size: {data.system.db_table_size}</span>
-            <span>Query time: {data.system.query_time_ms}ms</span>
-          </div>
-        </footer>
-      )}
     </div>
   );
 }
