@@ -3,6 +3,6 @@ services:
     build: .
     restart: unless-stopped
     ports:
-      - "${DASHBOARD_PORT:-3001}:3001"
+      - "${DASHBOARD_PORT:-8080}:3001"
     environment:
       API_URL: ${API_URL}

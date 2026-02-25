@@ -7,11 +7,15 @@ export interface LogMonitor {
 export interface LogStats {
   log_id: string;
   sth_count: number;
+  sths_last_1h: number;
   sths_last_24h: number;
   latest_tree_size: number | null;
   latest_timestamp: number | null;
   oldest_tree_size: number | null;
   tree_growth_total: number;
+  growth_per_hour: number;
+  unique_root_hashes: number;
+  sth_freshness_seconds: number | null;
   first_seen: string;
   last_seen: string;
   staleness_seconds: number | null;
@@ -23,6 +27,7 @@ export interface LogStats {
 export interface MonitorStats {
   monitor_id: string;
   sth_count: number;
+  log_count: number;
   first_seen: string;
   last_seen: string;
   staleness_seconds: number | null;
@@ -65,6 +70,10 @@ export interface StatsResponse {
   logs: LogStats[];
   monitors: MonitorStats[];
   consistency: ConsistencyEntry[];
+  system: {
+    db_table_size: string;
+    query_time_ms: number;
+  };
 }
 
 const API_URL = ((window as unknown) as Record<string, unknown>).__API_URL__ || "";

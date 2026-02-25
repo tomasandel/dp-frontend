@@ -60,6 +60,15 @@ export default function App() {
           </>
         )}
       </main>
+
+      {data && (
+        <footer className="border-t px-6 py-3">
+          <div className="mx-auto flex max-w-7xl justify-end gap-4 text-xs text-muted-foreground">
+            <span>DB table size: {data.system.db_table_size}</span>
+            <span>Query time: {data.system.query_time_ms}ms</span>
+          </div>
+        </footer>
+      )}
     </div>
   );
 }

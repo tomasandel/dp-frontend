@@ -33,6 +33,7 @@ export function MonitorsTable({ data }: { data: StatsResponse }) {
             <TableRow>
               <TableHead>Monitor ID</TableHead>
               <TableHead className="text-right">STHs</TableHead>
+              <TableHead className="text-right">Logs</TableHead>
               <TableHead>First Seen</TableHead>
               <TableHead>Last Seen</TableHead>
               <TableHead className="text-right">Staleness</TableHead>
@@ -43,6 +44,7 @@ export function MonitorsTable({ data }: { data: StatsResponse }) {
               <TableRow key={m.monitor_id}>
                 <TableCell className="font-mono text-sm">{m.monitor_id}</TableCell>
                 <TableCell className="text-right">{m.sth_count}</TableCell>
+                <TableCell className="text-right">{m.log_count}</TableCell>
                 <TableCell className="text-sm">{formatDate(m.first_seen)}</TableCell>
                 <TableCell className="text-sm">{formatDate(m.last_seen)}</TableCell>
                 <TableCell className="text-right">
@@ -52,7 +54,7 @@ export function MonitorsTable({ data }: { data: StatsResponse }) {
             ))}
             {data.monitors.length === 0 && (
               <TableRow>
-                <TableCell colSpan={5} className="text-center text-muted-foreground">
+                <TableCell colSpan={6} className="text-center text-muted-foreground">
                   No monitor data available
                 </TableCell>
               </TableRow>

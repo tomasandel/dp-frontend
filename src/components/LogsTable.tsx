@@ -32,10 +32,14 @@ export function LogsTable({ data }: { data: StatsResponse }) {
             <TableRow>
               <TableHead>Log ID</TableHead>
               <TableHead className="text-right">STHs</TableHead>
+              <TableHead className="text-right">1h</TableHead>
               <TableHead className="text-right">24h</TableHead>
               <TableHead className="text-right">Latest Tree Size</TableHead>
               <TableHead className="text-right">Growth</TableHead>
+              <TableHead className="text-right">Growth/h</TableHead>
+              <TableHead className="text-right">Unique Hashes</TableHead>
               <TableHead className="text-right">Staleness</TableHead>
+              <TableHead className="text-right">STH Freshness</TableHead>
               <TableHead className="text-right">Avg Lag</TableHead>
               <TableHead className="text-right">Monitors</TableHead>
             </TableRow>
@@ -47,6 +51,7 @@ export function LogsTable({ data }: { data: StatsResponse }) {
                   {truncateId(log.log_id)}
                 </TableCell>
                 <TableCell className="text-right">{log.sth_count}</TableCell>
+                <TableCell className="text-right">{log.sths_last_1h}</TableCell>
                 <TableCell className="text-right">{log.sths_last_24h}</TableCell>
                 <TableCell className="text-right font-mono">
                   {log.latest_tree_size?.toLocaleString() ?? "-"}
@@ -54,8 +59,15 @@ export function LogsTable({ data }: { data: StatsResponse }) {
                 <TableCell className="text-right font-mono">
                   {log.tree_growth_total.toLocaleString()}
                 </TableCell>
+                <TableCell className="text-right font-mono">
+                  {log.growth_per_hour}
+                </TableCell>
+                <TableCell className="text-right">{log.unique_root_hashes}</TableCell>
                 <TableCell className="text-right">
                   {formatStaleness(log.staleness_seconds)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {formatStaleness(log.sth_freshness_seconds)}
                 </TableCell>
                 <TableCell className="text-right">
                   {log.avg_ingestion_lag_ms !== null
@@ -67,7 +79,7 @@ export function LogsTable({ data }: { data: StatsResponse }) {
             ))}
             {data.logs.length === 0 && (
               <TableRow>
-                <TableCell colSpan={8} className="text-center text-muted-foreground">
+                <TableCell colSpan={12} className="text-center text-muted-foreground">
                   No log data available
                 </TableCell>
               </TableRow>
