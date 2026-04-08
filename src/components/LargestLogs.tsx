@@ -28,11 +28,11 @@ export function LargestLogs({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Log</TableHead>
-              <TableHead className="text-right">Tree Size</TableHead>
-              <TableHead className="text-right">Growth</TableHead>
-              <TableHead className="text-right">Unique Hashes</TableHead>
-              <TableHead className="text-right">STHs</TableHead>
+              <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
+              <TableHead className="text-right" title="Certificates added to the log per hour (based on tree growth over observation window)">Certs/h</TableHead>
+              <TableHead className="text-right" title="Current Merkle tree size (total certificates in the log)">Tree Size</TableHead>
+              <TableHead className="text-right" title="Number of STHs received from monitors for this log in the last 1 hour">1h STHs</TableHead>
+              <TableHead className="text-right" title="Number of STHs received from monitors for this log in the last 24 hours">24h STHs</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -49,15 +49,13 @@ export function LargestLogs({ data }: { data: StatsResponse }) {
                   )}
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                  {log.latest_tree_size?.toLocaleString() ?? "-"}
+                  {log.growth_per_hour.toLocaleString()}
                 </TableCell>
                 <TableCell className="text-right font-mono">
-                  {log.tree_growth_total.toLocaleString()}
+                  {log.latest_tree_size?.toLocaleString() ?? "-"}
                 </TableCell>
-                <TableCell className="text-right">
-                  {log.unique_root_hashes}
-                </TableCell>
-                <TableCell className="text-right">{log.sth_count}</TableCell>
+                <TableCell className="text-right">{log.sths_last_1h}</TableCell>
+                <TableCell className="text-right">{log.sths_last_24h}</TableCell>
               </TableRow>
             ))}
             {top5.length === 0 && (

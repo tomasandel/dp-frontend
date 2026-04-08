@@ -37,10 +37,10 @@ export function ConsistencyPanel({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Log</TableHead>
-              <TableHead className="text-right">Monitors</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Details</TableHead>
+              <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
+              <TableHead className="text-right" title="Number of monitors that have reported STHs for this log">Monitors</TableHead>
+              <TableHead title="Whether all monitors agree on the latest tree state (same root hash for the same tree size)">Status</TableHead>
+              <TableHead title="Per-monitor tree size and root hash for the latest STH (shown when a conflict is detected)">Details</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

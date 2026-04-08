@@ -10,17 +10,32 @@ export function SystemPanel({ data }: { data: StatsResponse }) {
       <CardContent>
         <div className="grid grid-cols-3 gap-4">
           <div>
-            <p className="text-sm text-muted-foreground">DB Table Size</p>
+            <p
+              className="text-sm text-muted-foreground"
+              title="Total disk size of the sths PostgreSQL table including indexes"
+            >
+              DB Table Size
+            </p>
             <p className="text-lg font-semibold">{data.system.db_table_size}</p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Total Rows</p>
+            <p
+              className="text-sm text-muted-foreground"
+              title="Total number of rows in the sths table"
+            >
+              Total Rows
+            </p>
             <p className="text-lg font-semibold">
               {data.total_sths.toLocaleString()}
             </p>
           </div>
           <div>
-            <p className="text-sm text-muted-foreground">Query Time</p>
+            <p
+              className="text-sm text-muted-foreground"
+              title="Time taken by the backend to compute and return all statistics"
+            >
+              Query Time
+            </p>
             <p className="text-lg font-semibold">{data.system.query_time_ms}ms</p>
           </div>
         </div>

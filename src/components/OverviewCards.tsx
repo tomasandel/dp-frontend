@@ -6,7 +6,10 @@ export function OverviewCards({ data }: { data: StatsResponse }) {
     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardTitle
+            className="text-sm font-medium text-muted-foreground"
+            title="Total number of Signed Tree Head records stored in the database"
+          >
             Total STHs
           </CardTitle>
         </CardHeader>
@@ -16,7 +19,10 @@ export function OverviewCards({ data }: { data: StatsResponse }) {
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardTitle
+            className="text-sm font-medium text-muted-foreground"
+            title="Number of distinct CT logs the backend has received STHs for"
+          >
             Unique Logs
           </CardTitle>
         </CardHeader>
@@ -26,7 +32,10 @@ export function OverviewCards({ data }: { data: StatsResponse }) {
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardTitle
+            className="text-sm font-medium text-muted-foreground"
+            title="Number of distinct monitor instances pushing STHs to the backend"
+          >
             Unique Monitors
           </CardTitle>
         </CardHeader>
@@ -36,7 +45,10 @@ export function OverviewCards({ data }: { data: StatsResponse }) {
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium text-muted-foreground">
+          <CardTitle
+            className="text-sm font-medium text-muted-foreground"
+            title="Time span between the oldest and newest STH record in the database"
+          >
             Data Span
           </CardTitle>
         </CardHeader>

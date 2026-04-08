@@ -28,11 +28,11 @@ export function FastestGrowingLogs({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Log</TableHead>
-              <TableHead className="text-right">Certs/h</TableHead>
-              <TableHead className="text-right">Tree Size</TableHead>
-              <TableHead className="text-right">1h STHs</TableHead>
-              <TableHead className="text-right">24h STHs</TableHead>
+              <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
+              <TableHead className="text-right" title="Certificates added to the log per hour (based on tree growth over observation window)">Certs/h</TableHead>
+              <TableHead className="text-right" title="Current Merkle tree size (total certificates in the log)">Tree Size</TableHead>
+              <TableHead className="text-right" title="Number of STHs received from monitors for this log in the last 1 hour">1h STHs</TableHead>
+              <TableHead className="text-right" title="Number of STHs received from monitors for this log in the last 24 hours">24h STHs</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

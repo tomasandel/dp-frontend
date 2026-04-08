@@ -31,12 +31,12 @@ export function MonitorsTable({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Monitor ID</TableHead>
-              <TableHead className="text-right">STHs</TableHead>
-              <TableHead className="text-right">Logs</TableHead>
-              <TableHead>First Seen</TableHead>
-              <TableHead>Last Seen</TableHead>
-              <TableHead className="text-right">Staleness</TableHead>
+              <TableHead title="Identifier of the monitor instance (set in sidecar config)">Monitor ID</TableHead>
+              <TableHead className="text-right" title="Total number of STH records this monitor has pushed to the backend">STHs</TableHead>
+              <TableHead className="text-right" title="Number of distinct CT logs this monitor has reported STHs for">Logs</TableHead>
+              <TableHead title="Timestamp of the earliest STH record received from this monitor">First Seen</TableHead>
+              <TableHead title="Timestamp of the most recent STH record received from this monitor">Last Seen</TableHead>
+              <TableHead className="text-right" title="Time since the last STH was received from this monitor">Staleness</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

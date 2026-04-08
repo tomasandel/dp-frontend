@@ -15,7 +15,6 @@ export interface LogStats {
   oldest_tree_size: number | null;
   tree_growth_total: number;
   growth_per_hour: number;
-  unique_root_hashes: number;
   sth_freshness_seconds: number | null;
   first_seen: string;
   last_seen: string;
@@ -65,7 +64,6 @@ export interface StatsResponse {
   recent_activity: {
     last_1h: number;
     last_24h: number;
-    last_7d: number;
   };
   hourly_histogram: { hour: string; count: number }[];
   five_min_histogram: { time: string; count: number }[];
