@@ -28,7 +28,7 @@ export function LargestLogs({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Log ID</TableHead>
+              <TableHead>Log</TableHead>
               <TableHead className="text-right">Tree Size</TableHead>
               <TableHead className="text-right">Growth</TableHead>
               <TableHead className="text-right">Unique Hashes</TableHead>
@@ -38,8 +38,15 @@ export function LargestLogs({ data }: { data: StatsResponse }) {
           <TableBody>
             {top5.map((log) => (
               <TableRow key={log.log_id}>
-                <TableCell className="font-mono text-xs" title={log.log_id}>
-                  {truncateId(log.log_id)}
+                <TableCell title={log.log_id}>
+                  {log.log_name ? (
+                    <div>
+                      <div className="text-sm">{log.log_name}</div>
+                      <div className="font-mono text-xs text-muted-foreground">{truncateId(log.log_id)}</div>
+                    </div>
+                  ) : (
+                    <div className="font-mono text-xs">{truncateId(log.log_id)}</div>
+                  )}
                 </TableCell>
                 <TableCell className="text-right font-mono">
                   {log.latest_tree_size?.toLocaleString() ?? "-"}

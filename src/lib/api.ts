@@ -6,6 +6,7 @@ export interface LogMonitor {
 
 export interface LogStats {
   log_id: string;
+  log_name: string | null;
   sth_count: number;
   sths_last_1h: number;
   sths_last_24h: number;
@@ -42,6 +43,7 @@ export interface ConsistencyMonitorEntry {
 
 export interface ConsistencyEntry {
   log_id: string;
+  log_name: string | null;
   monitor_count: number;
   consistent: boolean;
   latest_per_monitor: ConsistencyMonitorEntry[];

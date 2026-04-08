@@ -37,7 +37,7 @@ export function ConsistencyPanel({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Log ID</TableHead>
+              <TableHead>Log</TableHead>
               <TableHead className="text-right">Monitors</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Details</TableHead>
@@ -49,8 +49,15 @@ export function ConsistencyPanel({ data }: { data: StatsResponse }) {
                 key={entry.log_id}
                 className={!entry.consistent ? "bg-destructive/10" : ""}
               >
-                <TableCell className="font-mono text-xs" title={entry.log_id}>
-                  {truncateId(entry.log_id)}
+                <TableCell title={entry.log_id}>
+                  {entry.log_name ? (
+                    <div>
+                      <div className="text-sm">{entry.log_name}</div>
+                      <div className="font-mono text-xs text-muted-foreground">{truncateId(entry.log_id)}</div>
+                    </div>
+                  ) : (
+                    <div className="font-mono text-xs">{truncateId(entry.log_id)}</div>
+                  )}
                 </TableCell>
                 <TableCell className="text-right">{entry.monitor_count}</TableCell>
                 <TableCell>
