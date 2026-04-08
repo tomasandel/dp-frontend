@@ -6,7 +6,7 @@ import { HourlyChart } from "@/components/HourlyChart";
 import { FiveMinChart } from "@/components/FiveMinChart";
 import { LogsTable } from "@/components/LogsTable";
 import { MonitorsTable } from "@/components/MonitorsTable";
-import { ConsistencyPanel } from "@/components/ConsistencyPanel";
+
 import { LargestLogs } from "@/components/LargestLogs";
 import { FastestGrowingLogs } from "@/components/FastestGrowingLogs";
 import { SystemPanel } from "@/components/SystemPanel";
@@ -62,7 +62,6 @@ export default function App() {
               <FastestGrowingLogs data={data} />
             </div>
             <Separator />
-            <ConsistencyPanel data={data} />
             <LogsTable data={data} />
             <MonitorsTable data={data} />
             <Separator />
