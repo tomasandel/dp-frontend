@@ -9,17 +9,14 @@ export interface LogStats {
   log_name: string | null;
   sth_count: number;
   sths_last_1h: number;
-  sths_last_24h: number;
   latest_tree_size: number | null;
   latest_timestamp: number | null;
   oldest_tree_size: number | null;
   tree_growth_total: number;
   growth_per_hour: number;
-  sth_freshness_seconds: number | null;
   first_seen: string;
   last_seen: string;
   staleness_seconds: number | null;
-  avg_ingestion_lag_ms: number | null;
   monitor_count: number;
   monitors: LogMonitor[];
 }

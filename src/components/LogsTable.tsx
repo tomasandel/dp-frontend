@@ -32,14 +32,10 @@ export function LogsTable({ data }: { data: StatsResponse }) {
             <TableRow>
               <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
               <TableHead className="text-right" title="Total number of STH records stored for this log">STHs</TableHead>
-              <TableHead className="text-right" title="STHs received in the last 1 hour">1h</TableHead>
-              <TableHead className="text-right" title="STHs received in the last 24 hours">24h</TableHead>
+              <TableHead className="text-right" title="STHs received in the last 1 hour">1h STHs</TableHead>
               <TableHead className="text-right" title="Current Merkle tree size (total certificates in the log)">Latest Tree Size</TableHead>
               <TableHead className="text-right" title="Difference between the largest and smallest tree size observed (max - min)">Growth</TableHead>
-              <TableHead className="text-right" title="Certificates added to the log per hour (tree growth divided by observation window)">Growth/h</TableHead>
               <TableHead className="text-right" title="Time since the last STH was received from any monitor for this log">Staleness</TableHead>
-              <TableHead className="text-right" title="Age of the CT log's own STH timestamp relative to now (how fresh the log's signed data is)">STH Freshness</TableHead>
-              <TableHead className="text-right" title="Average delay between the CT log's STH timestamp and when the backend stored it (monitor + network latency)">Avg Lag</TableHead>
               <TableHead className="text-right" title="Number of distinct monitors that have reported STHs for this log">Monitors</TableHead>
             </TableRow>
           </TableHeader>
@@ -58,33 +54,21 @@ export function LogsTable({ data }: { data: StatsResponse }) {
                 </TableCell>
                 <TableCell className="text-right">{log.sth_count}</TableCell>
                 <TableCell className="text-right">{log.sths_last_1h}</TableCell>
-                <TableCell className="text-right">{log.sths_last_24h}</TableCell>
                 <TableCell className="text-right font-mono">
                   {log.latest_tree_size?.toLocaleString() ?? "-"}
                 </TableCell>
                 <TableCell className="text-right font-mono">
                   {log.tree_growth_total.toLocaleString()}
                 </TableCell>
-                <TableCell className="text-right font-mono">
-                  {log.growth_per_hour}
-                </TableCell>
                 <TableCell className="text-right">
                   {formatStaleness(log.staleness_seconds)}
-                </TableCell>
-                <TableCell className="text-right">
-                  {formatStaleness(log.sth_freshness_seconds)}
-                </TableCell>
-                <TableCell className="text-right">
-                  {log.avg_ingestion_lag_ms !== null
-                    ? `${(log.avg_ingestion_lag_ms / 1000).toFixed(1)}s`
-                    : "-"}
                 </TableCell>
                 <TableCell className="text-right">{log.monitor_count}</TableCell>
               </TableRow>
             ))}
             {data.logs.length === 0 && (
               <TableRow>
-                <TableCell colSpan={11} className="text-center text-muted-foreground">
+                <TableCell colSpan={7} className="text-center text-muted-foreground">
                   No log data available
                 </TableCell>
               </TableRow>
