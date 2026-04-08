@@ -2,12 +2,13 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SortableHead } from "@/components/ui/sortable-head";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { StatsResponse } from "@/lib/api";
+import { useSort } from "@/lib/use-sort";
+import type { LogStats, StatsResponse } from "@/lib/api";
 
 function truncateId(id: string, len = 16) {
   return id.length > len ? id.slice(0, len) + "..." : id;
@@ -21,6 +22,13 @@ function formatStaleness(seconds: number | null) {
 }
 
 export function LogsTable({ data }: { data: StatsResponse }) {
+  const { sorted, sortKey, sortDir, toggle } = useSort<LogStats>(
+    data.logs,
+    "sth_count"
+  );
+
+  const onSort = (key: string) => toggle(key as keyof LogStats & string);
+
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -30,17 +38,17 @@ export function LogsTable({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
-              <TableHead className="text-right" title="Total number of STH records stored for this log">STHs</TableHead>
-              <TableHead className="text-right" title="STHs received in the last 1 hour">1h STHs</TableHead>
-              <TableHead className="text-right" title="Current Merkle tree size (total certificates in the log)">Latest Tree Size</TableHead>
-              <TableHead className="text-right" title="Difference between the largest and smallest tree size observed (max - min)">Growth</TableHead>
-              <TableHead className="text-right" title="Time since the last STH was received from any monitor for this log">Staleness</TableHead>
-              <TableHead className="text-right" title="Number of distinct monitors that have reported STHs for this log">Monitors</TableHead>
+              <SortableHead label="Log" sortKey="log_name" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="CT log name and base64-encoded log ID" />
+              <SortableHead label="STHs" sortKey="sth_count" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Total number of STH records stored for this log" />
+              <SortableHead label="1h STHs" sortKey="sths_last_1h" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="STHs received in the last 1 hour" />
+              <SortableHead label="Latest Tree Size" sortKey="latest_tree_size" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Current Merkle tree size (total certificates in the log)" />
+              <SortableHead label="Growth" sortKey="tree_growth_total" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Difference between the largest and smallest tree size observed (max - min)" />
+              <SortableHead label="Staleness" sortKey="staleness_seconds" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Time since the last STH was received from any monitor for this log" />
+              <SortableHead label="Monitors" sortKey="monitor_count" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Number of distinct monitors that have reported STHs for this log" />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.logs.map((log) => (
+            {sorted.map((log) => (
               <TableRow key={log.log_id}>
                 <TableCell title={log.log_id}>
                   {log.log_name ? (

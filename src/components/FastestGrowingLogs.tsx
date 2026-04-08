@@ -2,22 +2,27 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SortableHead } from "@/components/ui/sortable-head";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { StatsResponse } from "@/lib/api";
+import { useSort } from "@/lib/use-sort";
+import type { LogStats, StatsResponse } from "@/lib/api";
 
 function truncateId(id: string, len = 16) {
   return id.length > len ? id.slice(0, len) + "..." : id;
 }
 
 export function FastestGrowingLogs({ data }: { data: StatsResponse }) {
-  const top5 = [...data.logs]
-    .filter((l) => l.growth_per_hour > 0)
-    .sort((a, b) => b.growth_per_hour - a.growth_per_hour)
-    .slice(0, 5);
+  const filtered = data.logs.filter((l) => l.growth_per_hour > 0);
+  const { sorted, sortKey, sortDir, toggle } = useSort<LogStats>(
+    filtered,
+    "growth_per_hour"
+  );
+  const top5 = sorted.slice(0, 5);
+
+  const onSort = (key: string) => toggle(key as keyof LogStats & string);
 
   return (
     <Card>
@@ -28,10 +33,10 @@ export function FastestGrowingLogs({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
-              <TableHead className="text-right" title="Certificates added to the log per hour (based on tree growth over observation window)">Certs/h</TableHead>
-              <TableHead className="text-right" title="Current Merkle tree size (total certificates in the log)">Tree Size</TableHead>
-              <TableHead className="text-right" title="Number of STHs received from monitors for this log in the last 1 hour">1h STHs</TableHead>
+              <SortableHead label="Log" sortKey="log_name" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="CT log name and base64-encoded log ID" />
+              <SortableHead label="Certs/h" sortKey="growth_per_hour" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Certificates added to the log per hour (based on tree growth over observation window)" />
+              <SortableHead label="Tree Size" sortKey="latest_tree_size" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Current Merkle tree size (total certificates in the log)" />
+              <SortableHead label="1h STHs" sortKey="sths_last_1h" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Number of STHs received from monitors for this log in the last 1 hour" />
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -4,11 +4,12 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { StatsResponse } from "@/lib/api";
+import { SortableHead } from "@/components/ui/sortable-head";
+import { useSort } from "@/lib/use-sort";
+import type { ConsistencyEntry, StatsResponse } from "@/lib/api";
 
 function truncateId(id: string, len = 16) {
   return id.length > len ? id.slice(0, len) + "..." : id;
@@ -20,6 +21,12 @@ function truncateHash(hash: string, len = 12) {
 
 export function ConsistencyPanel({ data }: { data: StatsResponse }) {
   const hasConflicts = data.consistency.some((c) => !c.consistent);
+  const { sorted, sortKey, sortDir, toggle } = useSort<ConsistencyEntry>(
+    data.consistency,
+    "log_name"
+  );
+
+  const onSort = (key: string) => toggle(key as keyof ConsistencyEntry & string);
 
   return (
     <Card className={hasConflicts ? "border-destructive" : ""}>
@@ -37,14 +44,14 @@ export function ConsistencyPanel({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead title="CT log name and base64-encoded log ID">Log</TableHead>
-              <TableHead className="text-right" title="Number of monitors that have reported STHs for this log">Monitors</TableHead>
-              <TableHead title="Whether all monitors agree on the latest tree state (same root hash for the same tree size)">Status</TableHead>
-              <TableHead title="Per-monitor tree size and root hash for the latest STH (shown when a conflict is detected)">Details</TableHead>
+              <SortableHead label="Log" sortKey="log_name" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="CT log name and base64-encoded log ID" />
+              <SortableHead label="Monitors" sortKey="monitor_count" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Number of monitors that have reported STHs for this log" />
+              <SortableHead label="Status" sortKey="consistent" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="Whether all monitors agree on the latest tree state (same root hash for the same tree size)" />
+              <SortableHead label="Details" sortKey="log_id" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="Per-monitor tree size and root hash for the latest STH (shown when a conflict is detected)" />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.consistency.map((entry) => (
+            {sorted.map((entry) => (
               <TableRow
                 key={entry.log_id}
                 className={!entry.consistent ? "bg-destructive/10" : ""}

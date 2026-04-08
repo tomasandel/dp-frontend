@@ -2,12 +2,13 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SortableHead } from "@/components/ui/sortable-head";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import type { StatsResponse } from "@/lib/api";
+import { useSort } from "@/lib/use-sort";
+import type { MonitorStats, StatsResponse } from "@/lib/api";
 
 function formatStaleness(seconds: number | null) {
   if (seconds === null) return "-";
@@ -22,6 +23,13 @@ function formatDate(iso: string | null) {
 }
 
 export function MonitorsTable({ data }: { data: StatsResponse }) {
+  const { sorted, sortKey, sortDir, toggle } = useSort<MonitorStats>(
+    data.monitors,
+    "sth_count"
+  );
+
+  const onSort = (key: string) => toggle(key as keyof MonitorStats & string);
+
   return (
     <Card>
       <CardHeader className="pb-2">
@@ -31,16 +39,16 @@ export function MonitorsTable({ data }: { data: StatsResponse }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead title="Identifier of the monitor instance (set in sidecar config)">Monitor ID</TableHead>
-              <TableHead className="text-right" title="Total number of STH records this monitor has pushed to the backend">STHs</TableHead>
-              <TableHead className="text-right" title="Number of distinct CT logs this monitor has reported STHs for">Logs</TableHead>
-              <TableHead title="Timestamp of the earliest STH record received from this monitor">First Seen</TableHead>
-              <TableHead title="Timestamp of the most recent STH record received from this monitor">Last Seen</TableHead>
-              <TableHead className="text-right" title="Time since the last STH was received from this monitor">Staleness</TableHead>
+              <SortableHead label="Monitor ID" sortKey="monitor_id" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="Identifier of the monitor instance (set in sidecar config)" />
+              <SortableHead label="STHs" sortKey="sth_count" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Total number of STH records this monitor has pushed to the backend" />
+              <SortableHead label="Logs" sortKey="log_count" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Number of distinct CT logs this monitor has reported STHs for" />
+              <SortableHead label="First Seen" sortKey="first_seen" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="Timestamp of the earliest STH record received from this monitor" />
+              <SortableHead label="Last Seen" sortKey="last_seen" currentKey={sortKey} currentDir={sortDir} onSort={onSort} title="Timestamp of the most recent STH record received from this monitor" />
+              <SortableHead label="Staleness" sortKey="staleness_seconds" currentKey={sortKey} currentDir={sortDir} onSort={onSort} className="text-right" title="Time since the last STH was received from this monitor" />
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.monitors.map((m) => (
+            {sorted.map((m) => (
               <TableRow key={m.monitor_id}>
                 <TableCell className="font-mono text-sm">{m.monitor_id}</TableCell>
                 <TableCell className="text-right">{m.sth_count}</TableCell>
