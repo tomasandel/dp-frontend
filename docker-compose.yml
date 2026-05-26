@@ -1,7 +1,14 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   dashboard:
     build: .
     restart: unless-stopped
+    logging: *default-logging
     ports:
       - "${DASHBOARD_PORT:-8080}:3001"
     environment:
